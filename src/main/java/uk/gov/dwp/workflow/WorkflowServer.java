@@ -59,9 +59,9 @@ public class WorkflowServer {
         return FhirContext.forDstu3();
     }
 
-    @Bean("CTXDSTU2")
-    public FhirContext FhirContextBeanDSTU2() {
-        return FhirContext.forDstu2();
+    @Bean("CTXR4")
+    public FhirContext FhirContextBeanr4() {
+        return FhirContext.forR4();
     }
 
 
