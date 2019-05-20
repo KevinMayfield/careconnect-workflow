@@ -4,7 +4,7 @@ package uk.gov.dwp.workflow.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PersonName",indexes =
+@Table(name = "fhir_PersonName",indexes =
         {
             @Index(name = "IDX_PERSON_FAMILY", columnList="family_name")
                 , @Index(name = "IDX_PERSON_GIVEN", columnList="given_name")

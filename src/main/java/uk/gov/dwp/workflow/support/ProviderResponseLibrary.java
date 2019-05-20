@@ -22,7 +22,9 @@ public class ProviderResponseLibrary {
             method.setOperationOutcome(outcomeException.getOutcome());
             method.setCreated(false);
         } else {
-            log.error(ex.getMessage());
+            if (ex.getMessage() != null) {
+                log.error(ex.getMessage());
+            }
             if (ex.getStackTrace().length >0) {
                 StringWriter sw = new StringWriter();
                 ex.printStackTrace(new PrintWriter(sw));

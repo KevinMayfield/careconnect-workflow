@@ -24,7 +24,8 @@ public class PersonEntityToFHIRPersonTransformer implements Transformer<PersonEn
     public Person transform(final PersonEntity personEntity) {
         final Person person = new Person();
 
-
+        log.info(personEntity.getId().toString());
+        person.setId(personEntity.getId().toString());
 
         for(PersonIdentifier personIdentifier : personEntity.getIdentifiers())
         {
@@ -36,7 +37,7 @@ public class PersonEntityToFHIRPersonTransformer implements Transformer<PersonEn
         }
 
 
-        person.setId(personEntity.getId().toString());
+
 
         Boolean officialFound = false;
         for (PersonName nameEntity : personEntity.getNames()) {
@@ -74,8 +75,7 @@ public class PersonEntityToFHIRPersonTransformer implements Transformer<PersonEn
             person.addAddress(address);
         }
 
-        for(PersonTelecom telecom : personEntity.getTelecoms())
-        {
+        for(PersonTelecom telecom : personEntity.getTelecoms()) {
             person.addTelecom()
                     .setSystem(telecom.getSystem())
                     .setValue(telecom.getValue())
@@ -83,13 +83,10 @@ public class PersonEntityToFHIRPersonTransformer implements Transformer<PersonEn
         }
 
 
-
         if (personEntity.getGender() !=null) {
            person.setGender(daoutils.getGender((personEntity.getGender())));
         }
 
-      
-        
 
         return person;
 

@@ -1,14 +1,12 @@
 package uk.gov.dwp.workflow.providers;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.api.Include;
 import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.api.ValidationModeEnum;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
-import ca.uhn.fhir.rest.param.DateRangeParam;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.param.TokenParam;
+import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
@@ -19,15 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.dwp.workflow.dao.PersonRepository;
+import uk.gov.dwp.workflow.support.OperationOutcomeException;
 import uk.gov.dwp.workflow.support.OperationOutcomeFactory;
 import uk.gov.dwp.workflow.support.ProviderResponseLibrary;
-
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
-//import uk.nhs.careconnect.ri.lib.gateway.provider.ResourceTestProvider;
 
 @Component
 public class PersonProvider implements ICCResourceProvider {
@@ -80,7 +75,7 @@ public class PersonProvider implements ICCResourceProvider {
         method.setOperationOutcome(opOutcome);
         Person newPerson = null;
         try {
-            newPerson = personDao.update(ctx, person, theId, theConditional);
+            newPerson = personDao.update(ctx, person, theId);
         } catch (Exception ex) {
             ProviderResponseLibrary.handleException(method,ex);
         }
@@ -94,7 +89,7 @@ public class PersonProvider implements ICCResourceProvider {
     }
 
     @Create
-    public MethodOutcome createPerson(HttpServletRequest theRequest, @ResourceParam Person person) {
+    public MethodOutcome create(HttpServletRequest theRequest, @ResourceParam Person person) throws OperationOutcomeException {
 
         log.info("Update Person Provider called");
 
@@ -104,13 +99,11 @@ public class PersonProvider implements ICCResourceProvider {
 
         method.setOperationOutcome(opOutcome);
         Person newPerson = null;
-        try {
-            newPerson = personDao.update(ctx, person, null, null);
-            method.setId(newPerson.getIdElement());
-            method.setResource(newPerson);
-        } catch(Exception ex) {
-            ProviderResponseLibrary.handleException(method,ex);
-        }
+
+        newPerson = personDao.update(ctx, person, null);
+
+        method.setId(newPerson.getIdElement());
+        method.setResource(newPerson);
 
         log.debug("called create Person method");
 
@@ -119,9 +112,10 @@ public class PersonProvider implements ICCResourceProvider {
 
     @Search
     public List<Resource> searchPerson(HttpServletRequest theRequest,
-        @OptionalParam(name= Person.SP_NAME) StringParam name
+        @OptionalParam(name= Person.SP_NAME) StringParam name,
+                                       @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
      ) {
-        return personDao.search(ctx,name);
+        return personDao.search(ctx,name, identifier);
     }
 
 

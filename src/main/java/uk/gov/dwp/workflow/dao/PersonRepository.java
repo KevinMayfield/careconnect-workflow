@@ -8,6 +8,7 @@ import ca.uhn.fhir.rest.annotation.IncludeParam;
 import ca.uhn.fhir.rest.annotation.OptionalParam;
 import ca.uhn.fhir.rest.param.DateRangeParam;
 import ca.uhn.fhir.rest.param.StringParam;
+import ca.uhn.fhir.rest.param.TokenParam;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Person;
 import org.hl7.fhir.dstu3.model.Resource;
@@ -27,14 +28,16 @@ public interface PersonRepository extends BaseRepository<PersonEntity, Person> {
 
     PersonEntity readEntity(FhirContext ctx, IdType theId);
 
-    Person update(FhirContext ctx, Person person, @IdParam IdType theId, @ConditionalUrlParam String theConditional) throws OperationOutcomeException;
+    Person update(FhirContext ctx, Person person, @IdParam IdType theId) throws OperationOutcomeException;
 
     List<Resource> search (FhirContext ctx,
-                           @OptionalParam(name = Person.SP_NAME) StringParam name
+                           @OptionalParam(name = Person.SP_NAME) StringParam name,
+                           @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
                          );
 
     List<PersonEntity> searchEntity (FhirContext ctx,
-                                     @OptionalParam(name = Person.SP_NAME) StringParam name
+                                     @OptionalParam(name = Person.SP_NAME) StringParam name,
+                                     @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
                                     );
 
 }

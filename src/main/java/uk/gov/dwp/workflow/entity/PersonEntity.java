@@ -32,17 +32,17 @@ public class PersonEntity extends BaseResource {
 
 
     @OneToMany(mappedBy="personEntity", targetEntity=PersonAddress.class)
-    private List<PersonAddress> addresses;
+    private List<PersonAddress> addresses = new ArrayList<>();
 
        @OneToMany(mappedBy="personEntity", targetEntity=PersonTelecom.class)
-       private List<PersonTelecom> telecoms;
+       private List<PersonTelecom> telecoms = new ArrayList<>();
 
     @OneToMany(mappedBy="personEntity", targetEntity=PersonName.class)
-    private List<PersonName> names = new ArrayList<>();;
+    private List<PersonName> names = new ArrayList<>();
 
     @Override
     public Long getId() {
-        return null;
+         return this.id;
     }
 
     public void setId(Long id) {
