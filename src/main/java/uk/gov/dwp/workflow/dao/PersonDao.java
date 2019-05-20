@@ -30,6 +30,9 @@ public class PersonDao implements PersonRepository {
     @Autowired
     private LibDao libDao;
 
+    @Autowired
+    private PersonEntityToFHIRPersonTransformer personEntityToFHIRPersonTransformer;
+
     private static final Logger log = LoggerFactory.getLogger(PersonDao.class);
 
     @Override
@@ -45,9 +48,7 @@ public class PersonDao implements PersonRepository {
     @Transactional
     @Override
     public void save(FhirContext ctx, PersonEntity
-            person)
-    {
-
+            person) {
 
         em.persist(person);
     }
@@ -60,14 +61,12 @@ public class PersonDao implements PersonRepository {
             PersonEntity personEntity = (PersonEntity) em.find(PersonEntity.class, Long.parseLong(theId.getIdPart()));
 
             Person person = null;
-            /*
+
             if (personEntity != null) {
                 person = personEntityToFHIRPersonTransformer.transform(personEntity);
                 personEntity.setResource(ctx.newJsonParser().encodeResourceToString(person));
                 em.persist(personEntity);
             }
-
-             */
             return person;
         } else {
             return null;
@@ -314,7 +313,7 @@ public class PersonDao implements PersonRepository {
         Person newPerson = null;
 
 
-       // TODO  newPerson = personEntityToFHIRPersonTransformer.transform(personEntity);
+       newPerson = personEntityToFHIRPersonTransformer.transform(personEntity);
 
         //em.persist(personEntity);
 
@@ -337,14 +336,10 @@ public class PersonDao implements PersonRepository {
             if (personEntity.getResource() != null) {
                 person = (Person) ctx.newJsonParser().parseResource(personEntity.getResource());
             } else {
-                person = null;
-                /* todo
-                    person = personEntityToFHIRPersonTransformer.transform(personEntity);
-                    String resourceStr = ctx.newJsonParser().encodeResourceToString(person);
-                    personEntity.setResource(resourceStr);
-                    em.persist(personEntity);
-
-                 */
+                person = personEntityToFHIRPersonTransformer.transform(personEntity);
+                String resourceStr = ctx.newJsonParser().encodeResourceToString(person);
+                personEntity.setResource(resourceStr);
+                em.persist(personEntity);
             }
             results.add(person);
 
