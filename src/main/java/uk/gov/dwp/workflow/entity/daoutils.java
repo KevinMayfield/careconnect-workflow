@@ -31,7 +31,7 @@ public final class daoutils {
     }
 
     public static Identifier getIdentifier(BaseIdentifier baseIdentifier, Identifier identifier) {
-        if (baseIdentifier.getSystem() != null) identifier.setSystem(baseIdentifier.getSystem().getUri());
+        if (baseIdentifier.getSystem() != null) identifier.setSystem(baseIdentifier.getSystemValue());
         if (baseIdentifier.getValue() != null) identifier.setValue(baseIdentifier.getValue());
         if (baseIdentifier.getUse() != null) {
             identifier.setUse(baseIdentifier.getIdentifierUse());

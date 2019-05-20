@@ -156,7 +156,7 @@ public class PersonDao implements PersonRepository {
         for (PersonIdentifier orgSearch : personEntity.getIdentifiers()) {
             Boolean found = false;
             for (Identifier identifier : person.getIdentifier()) {
-                if (identifier.getSystem().equals(orgSearch.getSystemUri())) {
+                if (identifier.getSystem().equals(orgSearch.getSystemValue())) {
                     found = true;
                 }
             }

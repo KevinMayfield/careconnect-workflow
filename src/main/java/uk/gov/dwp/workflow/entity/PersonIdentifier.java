@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name="fhir_PersonIdentifier", uniqueConstraints= @UniqueConstraint(name="PK_PERSON_IDENTIFIER", columnNames={"PERSON_IDENTIFIER_ID"})
 		,indexes =
 		{
-				@Index(name = "IDX_PERSON_IDENTIFER", columnList="IDENTIFIER_VALUE,SYSTEM_ID")
+				@Index(name = "IDX_PERSON_IDENTIFER", columnList="IDENTIFIER_VALUE,NAMING_UNIQUE_ID")
 		})
 public class PersonIdentifier extends BaseIdentifier {
 

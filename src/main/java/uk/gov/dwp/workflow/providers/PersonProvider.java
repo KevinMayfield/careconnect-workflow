@@ -63,7 +63,7 @@ public class PersonProvider implements ICCResourceProvider {
 
 
     @Update
-    public MethodOutcome update(HttpServletRequest theRequest, @ResourceParam Person person, @IdParam IdType theId, @ConditionalUrlParam String theConditional, RequestDetails theRequestDetails) {
+    public MethodOutcome update(HttpServletRequest theRequest, @ResourceParam Person person, @IdParam IdType theId,  RequestDetails theRequestDetails) throws OperationOutcomeException {
 
         log.debug("Update Person Provider called");
         
@@ -74,11 +74,9 @@ public class PersonProvider implements ICCResourceProvider {
 
         method.setOperationOutcome(opOutcome);
         Person newPerson = null;
-        try {
-            newPerson = personDao.update(ctx, person, theId);
-        } catch (Exception ex) {
-            ProviderResponseLibrary.handleException(method,ex);
-        }
+
+        newPerson = personDao.update(ctx, person, theId);
+
         method.setId(newPerson.getIdElement());
         method.setResource(newPerson);
 
@@ -112,8 +110,8 @@ public class PersonProvider implements ICCResourceProvider {
 
     @Search
     public List<Resource> searchPerson(HttpServletRequest theRequest,
-        @OptionalParam(name= Person.SP_NAME) StringParam name,
-                                       @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
+                @OptionalParam(name= Person.SP_NAME) StringParam name,
+                @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
      ) {
         return personDao.search(ctx,name, identifier);
     }

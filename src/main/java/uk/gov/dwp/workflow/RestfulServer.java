@@ -63,6 +63,8 @@ public class RestfulServer extends ca.uhn.fhir.rest.server.RestfulServer {
 
         resourceProviders.add(appCtx.getBean(TaskResourceProvider.class));
         resourceProviders.add(appCtx.getBean(PersonProvider.class));
+        resourceProviders.add(appCtx.getBean(NamingSystemProvider.class));
+
 
         setFhirContext(appCtx.getBean(FhirContext.class));
 

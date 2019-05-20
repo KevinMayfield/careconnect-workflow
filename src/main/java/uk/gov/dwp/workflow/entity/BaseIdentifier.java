@@ -10,8 +10,8 @@ public class BaseIdentifier extends BaseResource {
 
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SYSTEM_ID")
-	private SystemEntity systemEntity;
+	@JoinColumn(name = "NAMING_UNIQUE_ID")
+	private NamingSystemUniqueId system;
 
     @Column(name = "IDENTIFIER_VALUE")
     private String value;
@@ -24,22 +24,27 @@ public class BaseIdentifier extends BaseResource {
     Identifier.IdentifierUse identifierUse;
 
 
-    public SystemEntity getSystem() {
-        return this.systemEntity;
+    public NamingSystemUniqueId getSystem() {
+        return this.system;
     }
-    public String getSystemUri() {
+
+    public String getSystemValue() {
         String result = "";
-        if (this.systemEntity != null) result=this.systemEntity.getUri();
+        if (this.system != null) result=this.system.getValue();
         return result;
     }
-    public void setSystem(SystemEntity systemEntity) {
-        this.systemEntity = systemEntity;
-    }
+
+
 
     public void setValue(String value) { this.value = value; }
     public String getValue() { 	return this.value; }
 
     public void setUse(Identifier.IdentifierUse use) { this.identifierUse = use; }
+
+    public void setSystem(NamingSystemUniqueId system) {
+        this.system = system;
+    }
+
     public Identifier.IdentifierUse getUse() { 	return this.identifierUse; }
 
     public Integer getOrder() {
