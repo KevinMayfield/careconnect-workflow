@@ -175,9 +175,11 @@ public class PersonDao implements PersonRepository {
             }
 
             personIdentifier = (PersonIdentifier) libDao.setIdentifier(identifier, personIdentifier);
-            personIdentifier.setPerson(personEntity);
+            if (personIdentifier != null) {
+                personIdentifier.setPerson(personEntity);
 
-            em.persist(personIdentifier);
+                em.persist(personIdentifier);
+            }
         }
 
         log.info("Person Identifier");
@@ -318,7 +320,7 @@ public class PersonDao implements PersonRepository {
         if (identifier !=null)
         {
             Join<PersonEntity, PersonIdentifier> join = root.join("identifiers", JoinType.LEFT);
-            Join<PersonIdentifier, SystemEntity> joinSystem = join.join("systemEntity",JoinType.LEFT);
+            Join<PersonIdentifier, NamingSystemUniqueId> joinSystem = join.join("system",JoinType.LEFT);
 
             Predicate pvalue = builder.like(
                     builder.upper(join.get("value")),
@@ -326,7 +328,7 @@ public class PersonDao implements PersonRepository {
             );
             if (identifier.getSystem() != null) {
                 Predicate psystem = builder.like(
-                        builder.upper(joinSystem.get("codeSystemUri")),
+                        builder.upper(joinSystem.get("value")),
                         builder.upper(builder.literal(identifier.getSystem()))
                 );
                 Predicate p = builder.and(pvalue, psystem);

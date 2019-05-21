@@ -56,6 +56,9 @@ public class LibDao {
             entityIdentifier.setUse(identifier.getUse());
         }
 
+        // REVISIT Assume if system not found, it's not supported so do not store
+        if (entityIdentifier.getSystem()== null && identifier.hasSystem()) return null;
+
         return entityIdentifier;
     }
 

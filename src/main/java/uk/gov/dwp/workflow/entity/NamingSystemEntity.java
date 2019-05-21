@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "NamingSystem")
+@Table(name = "fhir_NamingSystem")
 public class NamingSystemEntity extends BaseResource {
 
 	/*

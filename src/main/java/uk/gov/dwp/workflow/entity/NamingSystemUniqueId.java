@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name="NamingSystemGroup", uniqueConstraints= @UniqueConstraint(name="PK_NAMING_SYSTEM_UNIQUE", columnNames={"NAMING_SYSTEM_UNIQUE_ID"})
+@Table(name="fhir_NamingSystemUnique", uniqueConstraints= @UniqueConstraint(name="PK_NAMING_SYSTEM_UNIQUE", columnNames={"NAMING_SYSTEM_UNIQUE_ID"})
 		)
 public class NamingSystemUniqueId {
 

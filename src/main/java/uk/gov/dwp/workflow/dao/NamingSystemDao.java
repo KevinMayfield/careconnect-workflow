@@ -271,7 +271,7 @@ public class NamingSystemDao implements NamingSystemRepository {
 
             Join<NamingSystem, NamingSystemUniqueId> join = root.join("namingSystemUniqueIds", JoinType.LEFT);
             Predicate p =
-                    builder.equal(join.get("_value"),unique.getValue());
+                    builder.equal(join.get("value"),unique.getValue());
 
             predList.add(p);
         }
