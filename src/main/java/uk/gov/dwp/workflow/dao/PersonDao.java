@@ -93,7 +93,7 @@ public class PersonDao implements PersonRepository {
         }
 
         for (Identifier component: person.getIdentifier()) {
-            List<PersonEntity> entries = searchEntity(ctx, null, new TokenParam().setValue(component.getValue()));
+            List<PersonEntity> entries = searchEntity(ctx, null, new TokenParam().setValue(component.getValue()), null, null);
             for (PersonEntity personSearch : entries) {
                 if (person.getId() == null) {
                     throw new ResourceVersionConflictException("NamingSystem Unique identifier "+component.getValue()+ " is already present on the system "+ personSearch.getId());
@@ -278,10 +278,12 @@ public class PersonDao implements PersonRepository {
     @Override
     public List<Resource> search(FhirContext ctx,
                                  @OptionalParam(name = Person.SP_NAME) StringParam name,
-                                 @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
+                                 @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier,
+                                 @OptionalParam(name = Person.SP_EMAIL) TokenParam email,
+                                 @OptionalParam(name = Person.SP_PHONE) TokenParam phone
 
     ) {
-        List<PersonEntity> qryResults = searchEntity(ctx, name, identifier);
+        List<PersonEntity> qryResults = searchEntity(ctx, name, identifier,email, phone);
         List<Resource> results = new ArrayList<>();
 
         for (PersonEntity personEntity : qryResults) {
@@ -303,7 +305,9 @@ public class PersonDao implements PersonRepository {
     @Override
     public List<PersonEntity> searchEntity(FhirContext ctx,
                                            @OptionalParam(name = Person.SP_NAME) StringParam name,
-                                           @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
+                                           @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier,
+                                           @OptionalParam(name = Person.SP_EMAIL) TokenParam email,
+                                           @OptionalParam(name = Person.SP_PHONE) TokenParam phone
     ) {
 
 
@@ -355,6 +359,30 @@ public class PersonDao implements PersonRepository {
                         builder.upper(builder.literal(name.getValue() + "%"))
                 );
                 Predicate p = builder.or(pfamily, pgiven);
+                predList.add(p);
+            }
+        }
+
+        if (email != null || phone != null)
+        {
+            Join<PersonEntity, PersonTelecom> joinTel = root.join("telecoms", JoinType.LEFT);
+
+            if (email!=null) {
+                Predicate psystem = builder.equal(joinTel.get("system"),2);
+
+                Predicate pvalue =
+                        builder.like(
+                                builder.upper(joinTel.get("value").as(String.class)),
+                                builder.upper(builder.literal(email.getValue()+"%"))
+                        );
+
+                Predicate p = builder.and(pvalue,psystem);
+                predList.add(p);
+            }
+            if (phone!=null) {
+                Predicate pvalue = builder.equal(joinTel.get("value"),phone.getValue());
+                Predicate psystem = builder.equal(joinTel.get("system"),0);
+                Predicate p = builder.and(pvalue,psystem);
                 predList.add(p);
             }
         }

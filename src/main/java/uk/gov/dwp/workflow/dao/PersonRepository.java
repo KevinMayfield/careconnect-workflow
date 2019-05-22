@@ -32,12 +32,16 @@ public interface PersonRepository extends BaseRepository<PersonEntity, Person> {
 
     List<Resource> search (FhirContext ctx,
                            @OptionalParam(name = Person.SP_NAME) StringParam name,
-                           @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
+                           @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier,
+                           @OptionalParam(name = Person.SP_EMAIL) TokenParam email,
+                           @OptionalParam(name = Person.SP_PHONE) TokenParam phone
                          );
 
     List<PersonEntity> searchEntity (FhirContext ctx,
                                      @OptionalParam(name = Person.SP_NAME) StringParam name,
-                                     @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
+                                     @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier,
+                                     @OptionalParam(name = Person.SP_EMAIL) TokenParam email,
+                                     @OptionalParam(name = Person.SP_PHONE) TokenParam phone
                                     );
 
 }

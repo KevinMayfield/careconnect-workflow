@@ -111,9 +111,11 @@ public class PersonProvider implements ICCResourceProvider {
     @Search
     public List<Resource> searchPerson(HttpServletRequest theRequest,
                 @OptionalParam(name= Person.SP_NAME) StringParam name,
-                @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier
+                @OptionalParam(name = Person.SP_IDENTIFIER) TokenParam identifier,
+                                       @OptionalParam(name = Person.SP_EMAIL) TokenParam email,
+                                       @OptionalParam(name = Person.SP_PHONE) TokenParam phone
      ) {
-        return personDao.search(ctx,name, identifier);
+        return personDao.search(ctx,name, identifier, email, phone);
     }
 
 
