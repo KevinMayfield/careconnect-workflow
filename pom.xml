@@ -7,7 +7,7 @@
     <groupId>uk.gov</groupId>
     <artifactId>careconnect-workflow</artifactId>
     <version>3.8.0-SNAPSHOT</version>
-    <name>dwpconnect-workflow</name>
+    <name>careconnect-workflow</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
