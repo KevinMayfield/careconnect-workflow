@@ -18,7 +18,7 @@
         <care-connect-version>3.5.4</care-connect-version>
         <camel-version>2.23.1</camel-version>
         <hawtio.version>2.5.0</hawtio.version>
-        <hibernate_version>5.3.7.Final</hibernate_version>
+        <hibernate_version>5.3.20.Final</hibernate_version>
         <hibernate_validator_version>6.0.14.Final</hibernate_validator_version>
     </properties>
 
